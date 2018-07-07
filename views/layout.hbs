@@ -1,73 +1,80 @@
 <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    
+        <link rel="stylesheet" href="/css/bootstrap.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+
+
     <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
       #map {
         height: 100%;
       }
-      /* Optional: Makes the sample page fill the window. */
+    
       html, body {
         height: 100%;
         margin: 0;
         padding: 0;
       }
     </style>
-  </head>
-  
-<body>
-  <h1 class="head">
-    Maps
-  </h1>
-    
-  
-    
-    <div id="map"></div>
-    <script async src="//jsfiddle.net/n2b1wx41/11/embed/"></script>
-    <script>
 
+  </head>
+
+<body>
+  <ul class="nav nav-tabs">
+      <li role="presentation"><a href="/">HOME</a></li>
+      
+      <li role="presentation"><a href="/location">LOCATION</a></li>
+    </ul>
+
+  <input type=button value="check" onclick="run1()">
+
+
+
+    <div id="map"></div>
+
+    <script>
+    //var marker1;
+    var marker=[];
       var a={{title1}};
       var b={{title2}};
       var c={{title3}};
       var d={{title4}};
       var e=(c-a)/3;
       var f=(d-b)/3;
+      var locations;
 
 
-
-      function initMap() 
+      function initMap()
       {
-        var locations = [
+        locations = [
         [a+5*(e/2), b+(f/2), 0],
         [ a+5*(e/2), b+3*(f/2), 1],
         [ a+5*(e/2),b+5*(f/2), 2],
     ];
-        //var myLatLng = {lat: a+5*(e/2), lng: b+(f/2)};
-        //var myLatLng = {lat: a+5*(e/2), lng: b+3*(f/2)};
-        //var myLatLng = {lat: a+5*(e/2), lng: b+5*(f/2)};
+        var myLatLng = {lat: a+5*(e/2), lng: b+(f/2)};
+        var myLatLng = {lat: a+5*(e/2), lng: b+3*(f/2)};
+        var myLatLng = {lat: a+5*(e/2), lng: b+5*(f/2)};
 
-      			 																												
-	      
+
+
 
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 8,
           center: {lat: a+e, lng: b+f},
           mapTypeId: google.maps.MapTypeId.ROADMAP
         });
-        
-        var infowindow = new google.maps.InfoWindow();
-        
 
-	      var marker, i;
+        var infowindow = new google.maps.InfoWindow();
+
+
+	      var  i;
         var flightPlanCoordinates = [
           {lat: a, lng: b},
           {lat: c, lng:b},
           {lat: c, lng: d},
           {lat: a, lng:d},
           {lat: a, lng: b}
-          
+
         ];
         var flightPath = new google.maps.Polyline({
           path: flightPlanCoordinates,
@@ -76,13 +83,13 @@
           strokeOpacity: 1.0,
           strokeWeight: 2
         });
-        
+
         var flightPlanCoordinates1 = [
           {lat: a+e, lng:b },
           {lat: a+e, lng:b+f },
           {lat: a+e, lng:b+2*f },
           {lat: a+e, lng: b+3*f},
-          
+
         ];
         var flightPath1 = new google.maps.Polyline({
           path: flightPlanCoordinates1,
@@ -97,7 +104,7 @@
           {lat: a+2*e, lng:b+f },
           {lat: a+2*e, lng:b+2*f },
           {lat: a+2*e, lng: b+3*f},
-          
+
         ];
 
         var flightPath2 = new google.maps.Polyline({
@@ -107,13 +114,13 @@
           strokeOpacity: 1.0,
           strokeWeight: 2
         });
-        
+
         var flightPlanCoordinates3 = [
           {lat:a , lng:b+f },
           {lat:a+e , lng:b+f },
           {lat:a+2*e, lng:b+f },
           {lat:a+3*e , lng:b+f },
-          
+
         ];
 
         var flightPath3 = new google.maps.Polyline({
@@ -123,14 +130,14 @@
           strokeOpacity: 1.0,
           strokeWeight: 2
         });
-        
-        
+
+
         var flightPlanCoordinates4= [
           {lat: a, lng:b+2*f },
           {lat: a+e, lng:b+2*f},
           {lat: a+2*e, lng:b+2*f },
           {lat: a+3*e, lng:b+2*f },
-          
+
         ];
 
         var flightPath4 = new google.maps.Polyline({
@@ -140,34 +147,54 @@
           strokeOpacity: 1.0,
           strokeWeight: 2
         });
-        for (i = 0; i < locations.length; i++) {
-		      marker = new google.maps.Marker({
+        for (i = 0; i < locations.length; i++)
+        {
+		      marker.push ( new google.maps.Marker({
 			    position: new google.maps.LatLng(locations[i][0], locations[i][1]),
 			  map: map
-		});
+		}))
 
-		google.maps.event.addListener(marker, 'click', (function (marker, i) {
-			return function () {
-				//infowindow.setContent(locations[i][0]);
-				infowindow.open(map, marker);
-			}
-		})(marker, i));
-	}
-        
+		}
+
         flightPath.setMap(map);
         flightPath1.setMap(map);
         flightPath2.setMap(map);
         flightPath3.setMap(map);
         flightPath4.setMap(map);
-          
-          
+
+
       }
-      
+
   </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCqPCOM3R3PMaUMUGxa-MJ34BOSXWfxL7g&callback=initMap">
     </script>
+
+    <script>
+      function run1()
+      {
+        var i=0;
+        var id = setInterval(function() { run(marker); }, 10);
+        
+      function run(marker) {
+      {
+        
+        var latlng = new google.maps.LatLng(i+a+5*e/2,b+1*f/2);
+        marker[0].setPosition(latlng);
+       var latlng = new google.maps.LatLng(i+a+5*e/2,b+3*f/2);
+        marker[1].setPosition(latlng);
+        var latlng = new google.maps.LatLng(i+a+5*e/2,b+5*f/2);
+        marker[2].setPosition(latlng);
+        i=i-0.0001;
+        if(i<(-0.05))
+        {
+          clearInterval(id);
+        }
+      }
+      
+    }
+    }
+
+
+    </script>
 </body>
-
-    
-
